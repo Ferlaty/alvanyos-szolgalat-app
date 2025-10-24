@@ -2,9 +2,8 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" type="image/png" href="icon.png">
   <title>Álványos szolgálat</title>
-  
+  <link rel="icon" type="image/png" href="icon.png">
 
   <!-- React + ReactDOM -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
@@ -12,19 +11,55 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <!-- SheetJS -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
+    body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }
     table { border-collapse: collapse; width: 100%; margin-top: 20px; }
     td, th { border: 1px solid #000; padding: 4px; font-size: 12px; }
     button { margin-top: 10px; }
   </style>
 </head>
 <body>
-  </script>
+  <script type="text/babel">
+    function App() {
+      const [data, setData] = React.useState([]);
+
+      React.useEffect(() => {
+        fetch("data.xlsx")
+          .then(res => res.arrayBuffer())
+          .then(ab => {
+            const wb = XLSX.read(ab, { type: "array" });
+            const ws = wb.Sheets[wb.SheetNames[0]];
+            const json = XLSX.utils.sheet_to_json(ws, { header: 1 });
+            setData(json);
+          })
+          .catch(err => console.error("Error loading Excel:", err));
+      }, []);
+
+      return (
+        <div>
+          <h2>Álványos szolgálat</h2>
+          <table>
+            <tbody>
+              {data.map((row, i) => (
+                <tr key={i}>
+                  {row.map((cell, j) => (
+                    <td key={j}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+</script>
 
 
-  <h2>Beosztás az álványos szolgálathoz</h2>
+  <h2 class="text-4xl font-bold mb-3">Álványos szolgálat</h2>
   <div id="root"></div>
 
   <script type="text/babel">
@@ -32,13 +67,52 @@
       const [data, setData] = React.useState([]);
 
       const colorTemplate = [
-        ['rgb(150,150,150)', 'rgb(25,205,25)', 'rgb(0,215,215)','rgb(255,255,180)','rgb(255,255,0)','rgb(240,70,0)'],
+        ['rgb(217, 217, 217)', 'rgb(247, 202, 172)', 'rgb(189, 214, 238)','rgb(244, 176, 131)','rgb(197, 224, 179)','rgb(255, 229, 153)',],
+        ['rgb(217, 217, 217)', 'rgb(247, 202, 172)', 'rgb(189, 214, 238)','rgb(244, 176, 131)','rgb(197, 224, 179)','rgb(255, 229, 153)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
         // Add more rows/colors as needed
       ];
 
+      const fontStyle = [
+        "text-align: center; font-style: italic;  font-weight: bold;"
+      ]
+
       React.useEffect(() => {
         // 👇 loads "data.xlsx" from the SAME folder as index.html
-        fetch("data.xlsx")
+        fetch("https://ferlaty.github.io/alvanyos-szolgalat-app/data.xlsx")
           .then(res => res.arrayBuffer())
           .then(ab => {
             const wb = XLSX.read(ab, { type: "array" });
@@ -57,8 +131,8 @@
             <head>
               <style>
                 @page { size: A4 portrait; margin: 10mm; }
-                table { border-collapse: collapse; width: 100%; font-size: 12px; }
-                td, th { border: 1px solid black; padding: 4px; }
+                table { border-collapse: collapse; width: 100%; font-family: Arial, Helvetica, sans-serif; font-size: 18px; text-align: center; font-style: italic;  font-weight: bold; }
+                td, th { border: 1px solid black; padding: 3px; }
               </style>
             </head>
             <body>${tableHtml}</body>
@@ -70,14 +144,15 @@
 
       return (
         <div>
-          <button onClick={handlePrint}>Nyomtatás</button>
+          <button onClick={handlePrint} class="inline-block m mt-0 px-7 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-700 transition">Nyomtatás</button>
           <div id="table">
             <table>
               <tbody>
                 {data.map((row, i) => (
                   <tr key={i}>
                     {row.map((cell, j) => (
-                      <td key={j} style={{backgroundColor: colorTemplate[i] ? colorTemplate[i][j] : 'white'}}>
+                      <td key={j} style={{backgroundColor: colorTemplate[i] ? colorTemplate[i][j] : 'white',
+                       textAlign: 'center', fontStyle: 'italic', fontWeight: 'bold'}}>
                         {cell}
                       </td>
                     ))}
@@ -95,4 +170,3 @@
   </script>
 </body>
 </html>
-
