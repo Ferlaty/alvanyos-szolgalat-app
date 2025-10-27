@@ -1,0 +1,7 @@
+{
+  "buttons": [
+    { "id": "previous", "value": "Szeptember-Október" },
+    { "id": "current", "value": "November-December" },
+    { "id": "upcoming", "value": "Január-Február" }
+  ]
+}
