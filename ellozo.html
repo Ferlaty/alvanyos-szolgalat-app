@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Álványos szolgálat</title>
+  <link rel="icon" type="image/png" href="icon.png">
+
+  <!-- React + ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- SheetJS -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }
+    .dark-mode { 
+     background-color: #000;
+     color: white;
+    }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    td, th { border: 1px solid #000; padding: 4px; font-size: 12px; }
+    button { margin-top: 10px; }
+
+    .highlight {
+    background-color: yellow;
+}
+  .table-cell {
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;
+}
+
+/* dark mode colors override */
+.dark-mode .table-cell {
+  background-color: #333 !important;
+  color: white;
+}
+  </style>
+</head>
+<body id="body">
+
+<script>
+    const element = document.body;
+    if (localStorage.getItem("Mode") === "dark") {
+    element.classList.add("dark-mode");
+  }
+</script>
+
+  <script type="text/babel">
+    function App() {
+      const [data, setData] = React.useState([]);
+
+      React.useEffect(() => {
+        fetch("https://ferlaty.github.io/alvanyos-szolgalat-app/data.old.xlsx")
+          .then(res => res.arrayBuffer())
+          .then(ab => {
+            const wb = XLSX.read(ab, { type: "array" });
+            const ws = wb.Sheets[wb.SheetNames[0]];
+            const json = XLSX.utils.sheet_to_json(ws, { header: 1 });
+            setData(json);
+          })
+          .catch(err => console.error("Error loading Excel:", err));
+      }, []);
+
+      return (
+        <div>
+          <h2>Álványos szolgálat</h2>
+          <table>
+            <tbody>
+              {data.map((row, i) => (
+                <tr key={i}>
+                  {row.map((cell, j) => (
+                    <td key={j}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+</script>
+   <div>
+    <a href="index.html" class="text-2xl"><u>Vissza</u></a>
+   </div>
+   <h2 id="previous" class="text-4xl font-bold mb-3 text-center">-</h2>
+   <div class="fixed top-5 right-5 w-64 z-50">
+  <div class="relative">
+    <input type="text" id="searchBar" placeholder="Keresés..."
+           class="w-full border p-2 pr-10 bg-cyan-700 text-white rounded-lg text-right"style="text-align: left;">
+    <!-- Clear button inside the input -->
+    <button id="clearBtn"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-white px-2 py-1 rounded" style="display:none;">
+      ❌
+    </button>
+  </div>
+</div>
+
+
+
+  <div id="root"></div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+document.getElementById('download').addEventListener('click', () => {
+    const element = document.getElementById('table-area');
+    const options = {
+        margin: 10,
+        filename: 'alvanyos-szolgalat.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().from(element).set(options).save();
+});
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script type="text/babel">
+    function App() {
+      const [data, setData] = React.useState([]);
+
+      const colorTemplate = [
+        ['rgb(217, 217, 217)', 'rgb(247, 202, 172)', 'rgb(189, 214, 238)','rgb(244, 176, 131)','rgb(197, 224, 179)','rgb(255, 229, 153)',],
+        ['rgb(217, 217, 217)', 'rgb(247, 202, 172)', 'rgb(189, 214, 238)','rgb(244, 176, 131)','rgb(197, 224, 179)','rgb(255, 229, 153)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)','rgb(255,255,255)',],
+        ['rgb(217, 217, 217)', 'rgb(217, 217, 217)', 'rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)','rgb(217, 217, 217)',],
+        // Add more rows/colors as needed
+      ];
+
+      const fontStyle = [
+        "text-align: center; font-style: italic;  font-weight: bold;"
+      ]
+
+      React.useEffect(() => {
+        // 👇 loads "data.xlsx" from the SAME folder as index.html
+        fetch("https://ferlaty.github.io/alvanyos-szolgalat-app/data.old.xlsx")
+          .then(res => res.arrayBuffer())
+          .then(ab => {
+            const wb = XLSX.read(ab, { type: "array" });
+            const ws = wb.Sheets[wb.SheetNames[0]];
+            const json = XLSX.utils.sheet_to_json(ws, { header: 1 });
+            setData(json);
+          })
+          .catch(err => console.error("Error loading Excel:", err));
+      }, []);
+
+      const handlePrint = () => {
+        const tableHtml = document.getElementById("table").outerHTML;
+        const win = window.open("", "", "width=800,height=600");
+        win.document.write(`
+          <html>
+            <head>
+              <style>
+                @page { size: A4 portrait; margin: 10mm; }
+                table { border-collapse: collapse; width: 100%; font-family: Arial, Helvetica, sans-serif; font-size: 18px; text-align: center; font-style: italic;  font-weight: bold; }
+                td, th { border: 1px solid black; padding: 3px; }
+              </style>
+            </head>
+            <body>${tableHtml}</body>
+          </html>
+        `);
+        win.document.close();
+        win.print();
+      };
+
+      return (
+        <div>
+          <button onClick={handlePrint} class="block mx-auto m mt-0 px-7 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-700 transition">Nyomtatás/Mentés PDF-ként</button>
+          <div id="table">
+            <table>
+              <tbody>
+                {data.map((row, i) => (
+                  <tr key={i}>
+                    {row.map((cell, j) => (
+                      <td
+                        key={j}
+                         className="table-cell"
+                           style={{
+                             backgroundColor: colorTemplate[i] ? colorTemplate[i][j] : 'white'
+                               }}
+                           >
+                      {cell}
+                     </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+
+  <script>
+    // Get references to the input and the list
+const searchBar = document.getElementById('searchBar');
+const itemList = document.getElementById('body');
+const items = itemList.getElementsByTagName('td');
+const clearBtn = document.getElementById('clearBtn');
+const noResults = document.getElementById('noResults');
+
+searchBar.addEventListener('keyup', function() {
+    const filter = searchBar.value.toLowerCase();
+
+    for (let i = 0; i < items.length; i++) {
+        const text = items[i].textContent;
+        if (!filter) {
+            // If input is empty, reset the text
+            items[i].innerHTML = text;
+            found = true;
+            document.getElementById("clearBtn").style.display = "none";
+            continue;
+        }
+
+        if (filter) {
+          document.getElementById("clearBtn").style.display = "block";
+        }
+
+
+        // Create a regex to find the matching text
+        const regex = new RegExp(`(${filter})`, 'gi');
+
+        // Replace matching text with highlighted span
+        items[i].innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
+    }
+    clearBtn.addEventListener('click', () => {
+    searchBar.value = '';
+    document.getElementById("clearBtn").style.display = "none";
+    updateList();
+});
+});
+  </script>
+
+   <script>
+    const endpoint = "https://ferlaty.github.io/alvanyos-szolgalat-app/data.json";
+
+   async function updateContent() {
+    try {
+      const response = await fetch(endpoint);
+      if (!response.ok) throw new Error("Network response was not ok");
+
+      const data = await response.json();
+
+      // Update H2
+      const h2 = document.getElementById("current");
+      if (h2 && data.title) {
+        h2.textContent = data.title;
+      }
+
+      // Update buttons
+      data.buttons.forEach(btn => {
+        const button = document.getElementById(btn.id);
+        if (button) button.textContent = btn.value;
+      });
+
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", updateContent);
+</script>
+
+
+</body>
+</html>
