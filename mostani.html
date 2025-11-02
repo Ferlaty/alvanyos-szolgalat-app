@@ -24,7 +24,7 @@
     button { margin-top: 10px; }
 
     .highlight {
-    background-color: yellow;
+    background-color: rgba(197, 197, 15, 0.69);
 }
   .table-cell {
   text-align: center;
@@ -264,12 +264,15 @@ searchBar.addEventListener('keyup', function() {
 
         // Replace matching text with highlighted span
         items[i].innerHTML = text.replace(regex, '<span class="highlight">$1</span>');
+
+        clearBtn.addEventListener('click', () => {
+        searchBar.value = '';
+        document.getElementById("clearBtn").style.display = "none";
+        items[i].innerHTML = text;
+        found = true;
+        updateList();
+        });
     }
-    clearBtn.addEventListener('click', () => {
-    searchBar.value = '';
-    document.getElementById("clearBtn").style.display = "none";
-    updateList();
-});
 });
   </script>
 
@@ -306,4 +309,3 @@ searchBar.addEventListener('keyup', function() {
 
 </body>
 </html>
-
