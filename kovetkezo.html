@@ -13,6 +13,19 @@
   <!-- SheetJS -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "cb982193-f570-411b-bb02-aa9bfcd83185",
+      safari_web_id: "web.onesignal.auto.35c3b21f-3634-4ed2-bd52-fd09e2637415",
+      notifyButton: {
+        enable: true,
+      },
+    });
+  });
+</script>
   <style>
     body { font-family: Arial, Helvetica, sans-serif; padding: 20px; }
     .dark-mode { 
