@@ -126,9 +126,9 @@
     const app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
 
-    navigator.serviceWorker.register("sw.js").then(registration => {
+    navigator.serviceWorker.register("/firebase-messaging-sw.js").then(registration => {
       getToken(messaging, { 
-        ServiceWorkerRegistration: registration,
+        serviceWorkerRegistration: registration,
         vapidKey: 'BHymTZNlOpi_K1Aqz1T86YsLpB0yk0bcgymzebhM2Uq65GivsquArPj6xfMBq4LqhCeyAqB9B3ag0ZGXMnCEeV4' }).then((currentToken) => {
         if (currentToken) {
           console.log("Token is:"+currentToken)
