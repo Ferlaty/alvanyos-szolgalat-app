@@ -126,24 +126,41 @@
     const app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
 
-    navigator.serviceWorker.register("/firebase-messaging-sw.js").then(registration => {
-      getToken(messaging, { 
-        serviceWorkerRegistration: registration,
-        vapidKey: 'BHymTZNlOpi_K1Aqz1T86YsLpB0yk0bcgymzebhM2Uq65GivsquArPj6xfMBq4LqhCeyAqB9B3ag0ZGXMnCEeV4' }).then((currentToken) => {
-        if (currentToken) {
-          console.log("Token is:"+currentToken)
+    messaging.onBackgroundMessage((payload) => {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: payload.notification.image,
+    data: { url: payload.notification.click_action }
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.waitUntil(clients.openWindow(event.notification.data.url));
+});
+
+    //navigator.serviceWorker.register("/firebase-messaging-sw.js").then(registration => {
+      //getToken(messaging, { 
+        //serviceWorkerRegistration: registration,
+        //vapidKey: 'BHymTZNlOpi_K1Aqz1T86YsLpB0yk0bcgymzebhM2Uq65GivsquArPj6xfMBq4LqhCeyAqB9B3ag0ZGXMnCEeV4' }).then((currentToken) => {
+        //if (currentToken) {
+          //console.log("Token is:"+currentToken)
           // Send the token to your server and update the UI if necessary
           // ...
-        } else {
+        //} else {
           // Show permission request UI
-          console.log('No registration token available. Request permission to generate one.');
+          //console.log('No registration token available. Request permission to generate one.');
           // ...
-        }
-      }).catch((err) => {
-        console.log('An error occurred while retrieving token. ', err);
+        //}
+      //}).catch((err) => {
+        //console.log('An error occurred while retrieving token. ', err);
         // ...
-      });
-    });
+      //});
+    //});
   </script>
 
 </body>
