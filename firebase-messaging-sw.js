@@ -1,19 +1,22 @@
-self.addEventListener("push", (event) => {
+importScripts("https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js");
 
-    const notif = event.data.json().notification;
-
-    event.waitUntil(self.registration.showNotification(notif.title , {
-        body: notif.body,
-        icon: notif.image,
-        data: {
-            url: notif.click_action
-        }
-    }));
-
+firebase.initializeApp({
+  apiKey: "AIzaSyCUuzbpOeZOFHxrFzL3gijeKtRw9e_veHM",
+  projectId: "alvanyos-szolgalat",
+  messagingSenderId: "1037601102689",
+  appId: "1:1037601102689:web:e4f22b9df0f8360f6d4320"
 });
 
-self.addEventListener("notificationclick", (event) => {
+const messaging = firebase.messaging();
 
-    event.waitUntil(clients.openWindow(event.notification.data.url));
+messaging.onBackgroundMessage((payload) => {
+  console.log("Background message received: ", payload);
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: "/icon.png"
+  };
 
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
