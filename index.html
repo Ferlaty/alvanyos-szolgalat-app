@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Álványos szolgálat</title>
   <link rel="icon" type="image/png" href="icon.png">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js"></script>
   <style>
     body {
       font-family: Arial, Helvetica, sans-serif;
@@ -105,59 +102,54 @@
     });
   </script>
   <script>
-    // 🔥 Step 1: Initialize Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyCUuzbpOeZOFHxrFzL3gijeKtRw9e_veHM",
-      authDomain: "alvanyos-szolgalat.firebaseapp.com",
-      projectId: "alvanyos-szolgalat",
-      storageBucket: "alvanyos-szolgalat.firebasestorage.app",
-      messagingSenderId: "1037601102689",
-      appId: "1:1037601102689:web:e4f22b9df0f8360f6d4320",
-      measurementId: "G-K0WNX1LH9J"
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    // 🔥 Step 2: Initialize Messaging
-    const messaging = firebase.messaging();
-
-    // 🔥 Step 3: Register service worker
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/firebase-messaging-sw.js")
-        .then((registration) => {
-          console.log("Service Worker registered:", registration);
-
-          // 🔥 Step 4: Get permission for notifications
-          Notification.requestPermission().then((permission) => {
-            if (permission === "granted") {
-              console.log("Notification permission granted.");
-
-              // 🔥 Step 5: Get FCM token
-              messaging.getToken({
-                vapidKey: "BHymTZNlOpi_K1Aqz1T86YsLpB0yk0bcgymzebhM2Uq65GivsquArPj6xfMBq4LqhCeyAqB9B3ag0ZGXMnCEeV4",
-                serviceWorkerRegistration: registration
-              })
-                .then((currentToken) => {
-                  if (currentToken) {
-                    console.log("FCM Token:", currentToken);
-                    alert("Your FCM token is in the console. Use it to send test messages from Firebase Console.");
-                  } else {
-                    console.log("No registration token available.");
-                  }
-                })
-                .catch((err) => console.error("Token error:", err));
-            } else {
-              console.log("Notification permission denied.");
-            }
-          });
-        })
-        .catch((err) => console.error("Service Worker registration failed:", err));
-    }
-
-    // 🔥 Step 6: Handle messages while the site is open
-    messaging.onMessage((payload) => {
-      console.log("Message received in foreground: ", payload);
-      alert(`Foreground message: ${payload.notification.title}`);
-    });
+    const messaging0 = firebase.messaging();
+ messaging0
+   .requestPermission()
+   .then(function () {
+     MsgElem.innerHTML = "Notification permission granted."
+     console.log("Notification permission granted.");
+   })
+   .catch(function (err) {
+   ErrElem.innerHTML = ErrElem.innerHTML + "; " + err
+   console.log("Unable to get permission to notify.", err);
+ });
   </script>
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+  import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-messaging.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCUuzbpOeZOFHxrFzL3gijeKtRw9e_veHM",
+    authDomain: "alvanyos-szolgalat.firebaseapp.com",
+    projectId: "alvanyos-szolgalat",
+    storageBucket: "alvanyos-szolgalat.firebasestorage.app",
+    messagingSenderId: "1037601102689",
+    appId: "1:1037601102689:web:e4f22b9df0f8360f6d4320",
+    measurementId: "G-K0WNX1LH9J"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+  getToken(messaging, { vapidKey: 'BHymTZNlOpi_K1Aqz1T86YsLpB0yk0bcgymzebhM2Uq65GivsquArPj6xfMBq4LqhCeyAqB9B3ag0ZGXMnCEeV4' }).then((currentToken) => {
+  if (currentToken) {
+    // Send the token to your server and update the UI if necessary
+    // ...
+    console.log("Token is: "+currentToken)
+  } else {
+    // Show permission request UI
+    console.log('No registration token available. Request permission to generate one.');
+    // ...
+  }
+}).catch((err) => {
+  console.log('An error occurred while retrieving token. ', err);
+  // ...
+});
+</script>
 </body>
+</html>
