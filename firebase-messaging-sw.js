@@ -1,8 +1,6 @@
 // firebase-messaging-sw.js
-mportScripts("https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js");
-importScripts(
-    "https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js",
-);
+importScripts('https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.22.2/firebase-messaging-compat.js');
 
 // Initialize the Firebase app in the Service Worker by passing in the messagingSenderId.
 // Replace with your project's Firebase configuration
@@ -17,20 +15,12 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-messaging.setBackgroundMessageHandler(function(payload) {
-    console.log(
-        "[firebase-messaging-sw.js] Received background message ",
-        payload,
-    );
-    // Customize notification here
-    const notificationTitle = "Background Message Title";
-    const notificationOptions = {
-        body: "Background Message body.",
-        icon: "/itwonders-web-logo.png",
-    };
-
-    return self.registration.showNotification(
-        notificationTitle,
-        notificationOptions,
-    );
+messaging.onBackgroundMessage(function(payload) {
+  console.log('[firebase-messaging-sw.js] Received background message', payload);
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: '/icon.png'
+  };
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });

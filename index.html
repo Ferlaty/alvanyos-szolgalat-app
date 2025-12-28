@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Álványos szolgálat</title>
-  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="icon" type="image/png" href="favicon.ico">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -51,9 +52,36 @@
       onclick="window.open('kovetkezo.html', '_self')">-</button>
     <button id="darkMode"
       class="block mx-auto mt-4 px-7 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-800 transition">Sötét</button>
+    <button id="notif"
+      class="block mx-auto mt-4 px-7 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-800 transition">Értesítések</button>
+  <div id="notif-popup" class="fixed inset-0 z-50  flex items-center justify-center bg-black/50" style="display: non;">
+  <div class="bg-white p-6 rounded shadow-xl">
+    <p class="text-m font-semibod">Hogy engedélyezedt az értesítéseket,<br>kattincs az allábi gombra majd engedélyezedt őket:</p><br>
+    <img src="assets/notifications_allow.png" class="block mx-auto shadow-[0_15px_30px_rgba(0,0,0,0.6)] rounded-lg">
+    <button id="notif-enable"
+      class="block mx-auto mt-4 px-7 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-800 transition" onclick="Notification.requestPermission()">Engedélyzés</button>
+      <button
+    id="close-notif"
+    class="absolute top-2 right-2
+           rounded p-1
+           text-gray-400 hover:text-gray-700
+           hover:bg-gray-100 text-6xl">
+    ×
+  </button>
   </div>
+</div>
 
+  <script>
+    const notif0 = document.getElementById("notif")
+    notif0.addEventListener("click", function () {
+      document.getElementById("notif-popup").style.display = "flex";
+    });
 
+    const notif0close = document.getElementById("close-notif")
+    notif0close.addEventListener("click", function () {
+      document.getElementById("notif-popup").style.display = "none";
+    });
+  </script>
   <script>
     const endpoint = "https://ferlaty.github.io/alvanyos-szolgalat-app/data.json";
 
@@ -101,55 +129,49 @@
       }
     });
   </script>
-  <script>
-    const messaging0 = firebase.messaging();
- messaging0
-   .requestPermission()
-   .then(function () {
-     MsgElem.innerHTML = "Notification permission granted."
-     console.log("Notification permission granted.");
-   })
-   .catch(function (err) {
-   ErrElem.innerHTML = ErrElem.innerHTML + "; " + err
-   console.log("Unable to get permission to notify.", err);
- });
-  </script>
   <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-  import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-messaging.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-messaging.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCUuzbpOeZOFHxrFzL3gijeKtRw9e_veHM",
-    authDomain: "alvanyos-szolgalat.firebaseapp.com",
-    projectId: "alvanyos-szolgalat",
-    storageBucket: "alvanyos-szolgalat.firebasestorage.app",
-    messagingSenderId: "1037601102689",
-    appId: "1:1037601102689:web:e4f22b9df0f8360f6d4320",
-    measurementId: "G-K0WNX1LH9J"
-  };
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCUuzbpOeZOFHxrFzL3gijeKtRw9e_veHM",
+      authDomain: "alvanyos-szolgalat.firebaseapp.com",
+      projectId: "alvanyos-szolgalat",
+      storageBucket: "alvanyos-szolgalat.firebasestorage.app",
+      messagingSenderId: "1037601102689",
+      appId: "1:1037601102689:web:e4f22b9df0f8360f6d4320",
+      measurementId: "G-K0WNX1LH9J"
+    };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const messaging = getMessaging(app);
-  getToken(messaging, { vapidKey: 'BHymTZNlOpi_K1Aqz1T86YsLpB0yk0bcgymzebhM2Uq65GivsquArPj6xfMBq4LqhCeyAqB9B3ag0ZGXMnCEeV4' }).then((currentToken) => {
-  if (currentToken) {
-    // Send the token to your server and update the UI if necessary
-    // ...
-    console.log("Token is: "+currentToken)
-  } else {
-    // Show permission request UI
-    console.log('No registration token available. Request permission to generate one.');
-    // ...
-  }
-}).catch((err) => {
-  console.log('An error occurred while retrieving token. ', err);
-  // ...
-});
-</script>
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+
+    // Request notification permission
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        console.log("Notification permission granted.");
+        getToken(messaging, { vapidKey: 'BHymTZNlOpi_K1Aqz1T86YsLpB0yk0bcgymzebhM2Uq65GivsquArPj6xfMBq4LqhCeyAqB9B3ag0ZGXMnCEeV4' }).then((currentToken) => {
+          if (currentToken) {
+            // Send the token to your server and update the UI if necessary
+            // ...
+            console.log("Token is: " + currentToken)
+          } else {
+            // Show permission request UI
+            console.log('No registration token available. Request permission to generate one.');
+            // ...
+          }
+        }).catch((err) => {
+          console.log('An error occurred while retrieving token. ', err);
+          // ...
+        });
+      }
+    });
+  </script>
 </body>
+
 </html>
