@@ -3,5 +3,6 @@
     { "id": "previous", "value": "Szeptember-Október" },
     { "id": "current", "value": "November-December" },
     { "id": "upcoming", "value": "Január-Február" }
-  ]
+  ],
+  "version":"1.2.1"
 }
