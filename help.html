@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Álványos szolgálat | Segítség</title>
+  <link rel="icon" type="image/png" href="favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 20px;
+    }
+
+    .dark-mode {
+      background-color: #000;
+      color: white;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    td,
+    th {
+      border: 1px solid #000;
+      padding: 4px;
+      font-size: 12px;
+    }
+
+    button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+    <a href="index.html" class="text-2xl hover:underline absolute top-2 left-2">Vissza</a>
+    <div class="flex-1 p-6 max-w-2xl mx-auto">
+    <h2 class="text-4xl font-semibold mb-3">Segítség</h2>
+    <details>
+        <summary class="text-2xl">Nem tudom letölteni az applikációt</summary><br>
+        <P class="text-lg">A főoldalon az 'Applikáció' gombra kattintva automatikusan letölti az applikációt a te operációs rendszeredre.<br>
+            Miután a leltöltés befejeződödt, nyisd meg a fájlt majd kövesd az utasításokat.
+        </P><br>
+    </details>
+    <details>
+        <summary class="text-2xl">Rákatintotam az 'Applikáció' gombra, de nem töltötd le semmit</summary><br>
+        <P class="text-lg">Valószinűleg nincs egy natív applikáció a te operációs rendszeredre. Ebben az estben nincs mit tenni, mint használni a weboldalt.
+        </P><br>
+    </details>
+    <details>
+        <summary class="text-2xl">Ki akkartam nyomtatni a beosztást, de 3 A4-es oldalra nyomtata</summary><br>
+        <P class="text-lg">A 'További beálitások' allat keresd meg az 'Átméretezés' beálitást és rakd egyénire. Majd irjál bee egy kissebb számot, amedig nem jó.
+        </P><br>
+    </details>
+    <details>
+        <summary class="text-2xl">Nem tudom elmenteni a beosztást PDF-ként</summary><br>
+        <P class="text-lg">A beosztás fellet katinst a 'Nyomtatás/Mentés PDF-ként' gombra majd a nyomtató helyet válaszd a mentés PDF-ként opciót.
+        </P><br>
+    </details>
+    </div>
+      <script>
+    const element = document.body;
+    const btn = document.getElementById("darkMode");
+
+    // Load saved mode
+    if (localStorage.getItem("Mode") === "dark") {
+      element.classList.add("dark-mode");
+      btn.textContent = "Világos";
+    }
+
+    btn.addEventListener("click", function () {
+      const isDark = element.classList.toggle("dark-mode"); // true if now dark
+
+      if (isDark) {
+        localStorage.setItem("Mode", "dark");
+        btn.textContent = "Világos";
+      } else {
+        localStorage.setItem("Mode", "light");
+        btn.textContent = "Sötét";
+      }
+    });
+  </script>
+</body>

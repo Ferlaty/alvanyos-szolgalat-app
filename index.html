@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,21 +53,24 @@
     <button id="darkMode"
       class="block mx-auto mt-4 px-7 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-800 transition">Sötét</button>
     <button id="nativ_application"
-     class="block mx-auto mt-4 px-7 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-800 transition">Applikáció</button>
-     <div id="wrong_os" class="fixed inset-0 z-50  flex items-center justify-center bg-black/50" style="display: none;">
-  <div class="bg-white p-6 rounded shadow-xl text-center">
-    <p class="text-3xl font-semibod">Sajnos jelenleg nem áll rendelkezésre egy<br>natív applikáció a Te operációs rendszeredre.<br>Ettől még a weboldal <strong>működik</strong> probléma nélkül.<br><br><p class="text-8xl">🫤</p></p><br>
-      <button
-    id="close-wrong-os"
-    class="absolute top-2 right-2
+      class="block mx-auto mt-4 px-7 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-800 transition">Applikáció</button>
+    <button onclick="window.location.href = 'help.html'"
+      class="block mx-auto mt-4 px-7 py-2 bg-cyan-700 text-white rounded-lg hover:bg-cyan-800 transition">Segítség</button>  
+    <div id="wrong_os" class="fixed inset-0 z-50  flex items-center justify-center bg-black/50" style="display: none;">
+      <div class="bg-white p-6 rounded shadow-xl text-center">
+        <p class="text-3xl font-semibod">Sajnos jelenleg nem áll rendelkezésre egy<br>natív applikáció a Te operációs
+          rendszeredre.<br>Ettől még a weboldal <strong>működik</strong> probléma nélkül.<br><br>
+        <p class="text-8xl">🫤</p>
+        </p><br>
+        <button id="close-wrong-os" class="absolute top-2 right-2
            rounded p-1
            text-gray-400 hover:text-gray-700
            hover:bg-gray-100 text-6xl">
-    ×
-  </button>
+          ×
+        </button>
+      </div>
+    </div>
   </div>
-  </div>
-</div>
   <script>
     const endpoint = "https://ferlaty.github.io/alvanyos-szolgalat-app/data.json";
 
@@ -109,7 +113,7 @@
     });
 
     const cancel_btn = document.getElementById("close-wrong-os");
-    
+
     cancel_btn.addEventListener("click", function () {
       wrong_os.style.display = 'none';
     });

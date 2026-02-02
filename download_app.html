@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Álványos szolgálat | Applikáció</title>
+  <link rel="icon" type="image/png" href="favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 20px;
+    }
+
+    .dark-mode {
+      background-color: #000;
+      color: white;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    td,
+    th {
+      border: 1px solid #000;
+      padding: 4px;
+      font-size: 12px;
+    }
+
+    button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+     <div id="wrong_os" class="fixed inset-0 z-50  flex items-center justify-center bg-black/50" style="display: none;">
+  <div class="bg-white p-6 rounded shadow-xl text-center">
+    <p class="text-3xl font-semibod">Sajnos jelenleg nem áll rendelkezésre egy<br>natív applikáció a Te operációs rendszeredre.<br>Ettől még a weboldal <strong>működik</strong> probléma nélkül.<br><br><p class="text-8xl">🫤</p></p><br>
+      <button
+    id="close-wrong-os"
+    class="absolute top-2 right-2
+           rounded p-1
+           text-gray-400 hover:text-gray-700
+           hover:bg-gray-100 text-6xl">
+    ×
+  </button>
+  </div>
+  </div>
+</div>
+  <script>
+    const nativ_application = document.getElementById("nativ_application");
+    const client_platform = navigator.userAgentData?.platform;
+    const wrong_os = document.getElementById("wrong_os");
+
+      if (client_platform === 'Windows') {
+        window.open('https://github.com/Ferlaty/alvanyos-szolgalat-app/releases/download/1.2.0/telepito.alvanyos_szolgalat.exe')
+      }
+      else if (client_platform === 'Android') {
+        window.open('https://github.com/Ferlaty/alvanyos-szolgalat-app/releases/download/1.2.0/alvanyos_szolgalat.apk')
+      }
+      else {
+        wrong_os.style.display = 'flex';
+      }
+
+    const cancel_btn = document.getElementById("close-wrong-os");
+    
+    cancel_btn.addEventListener("click", function () {
+      window.location.href = "index.html";
+    });
+  </script>
+  <script>
+    const element = document.body;
+    const btn = document.getElementById("darkMode");
+
+    // Load saved mode
+    if (localStorage.getItem("Mode") === "dark") {
+      element.classList.add("dark-mode");
+      btn.textContent = "Világos";
+    }
+
+    btn.addEventListener("click", function () {
+      const isDark = element.classList.toggle("dark-mode"); // true if now dark
+
+      if (isDark) {
+        localStorage.setItem("Mode", "dark");
+        btn.textContent = "Világos";
+      } else {
+        localStorage.setItem("Mode", "light");
+        btn.textContent = "Sötét";
+      }
+    });
+  </script>
+</body>
+</html>
